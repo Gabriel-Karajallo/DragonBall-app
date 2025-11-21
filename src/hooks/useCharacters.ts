@@ -1,46 +1,59 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import type { Character } from "../types/Character";
 import { getAllCharactersPage } from "../services/characterService";
 
 export const useCharacters = () => {
   const [characters, setCharacters] = useState<Character[]>([]);
-  const [filtered, setFiltered] = useState<Character[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedRace, setSelectedRace] = useState<string | null>(null);
+
+  // Cargar personajes al inicio
   useEffect(() => {
     const fetchAll = async () => {
-      let allCharacters: Character[] = [];
+      let all: Character[] = [];
       let page = 1;
-      let hasNext = true;
 
-      while (hasNext) {
+      while (true) {
         const { items, links } = await getAllCharactersPage(page);
-        allCharacters = [...allCharacters, ...items];
-        if (links.next) {
-          page++;
-        } else {
-          hasNext = false;
-        }
+        all = [...all, ...items];
+        if (!links.next) break;
+        page++;
       }
 
-      setCharacters(allCharacters);
-      setFiltered(allCharacters);
+      setCharacters(all);
       setLoading(false);
     };
 
-    fetchAll().catch((err) => {
-      console.error(err);
-      setLoading(false);
-    });
+    fetchAll().catch(console.error);
   }, []);
 
-  const handleSearch = (term: string) => {
-    setFiltered(
-      characters.filter((char) =>
-        char.name.toLowerCase().includes(term.toLowerCase())
-      )
-    );
-  };
+  // 🟡 Filtrado reactivo sin usar setFiltered (useMemo)
+  const filtered = useMemo(() => {
+    let result = characters;
 
-  return { filtered, handleSearch, loading };
+    if (searchTerm.trim()) {
+      result = result.filter((c) =>
+        c.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+
+    if (selectedRace && selectedRace !== "Todos") {
+      result = result.filter(
+        (c) => c.race?.toLowerCase() === selectedRace.toLowerCase()
+      );
+    }
+
+    return result;
+  }, [characters, searchTerm, selectedRace]);
+
+  return {
+    filtered,
+    loading,
+    searchTerm,
+    setSearchTerm,
+    selectedRace,
+    setSelectedRace,
+  };
 };

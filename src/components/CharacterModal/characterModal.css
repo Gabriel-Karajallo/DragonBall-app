@@ -1,13 +1,4 @@
-/* Imagen del personaje */
-.modal-image {
-  width: 100%;
-  max-height: 400px;    /* limita altura máxima */
-  object-fit: contain;  /* muestra toda la imagen completa */
-  border-radius: 0.5rem;
-  margin-bottom: 1rem;
-}
-
-/* Overlay semi-transparente */
+/* Overlay centrado */
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -17,61 +8,60 @@
   align-items: center;
   z-index: 50;
   padding: 1rem;
-  overflow-y: auto;
+  overflow-y: auto; /* permite scroll si contenido es alto */
 }
 
 /* Contenedor del modal */
 .modal-content {
-  background-color: #1f2937; /* gris oscuro */
+  background-color: #1f2937;
   padding: 1.5rem;
   border-radius: 0.5rem;
-  max-width: 28rem;
+  max-width: 900px;
   width: 100%;
-  transition: transform 0.3s ease, opacity 0.3s ease;
-  position: relative;
+  display: flex;
+  flex-wrap: wrap; /* permite que columnas bajen si no caben */
+  gap: 2rem;
+  max-height: 90vh; /* evita overflow fuera del viewport */
+  overflow: hidden;
 }
 
-/* Animaciones */
-.fade-in {
-  animation: fadeIn 0.3s forwards;
+/* Columnas */
+.modal-left, .modal-right {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  overflow: auto; /* scroll interno */
 }
 
-.zoom-in {
-  animation: zoomIn 0.3s forwards;
+/* Proporciones */
+.modal-left {
+  flex: 2 1 300px;
 }
 
-@keyframes fadeIn { 
-  from { opacity: 0; } 
-  to { opacity: 1; } 
+.modal-right {
+  flex: 1 1 250px;
 }
 
-@keyframes zoomIn { 
-  from { opacity: 0; transform: scale(0.8); } 
-  to { opacity: 1; transform: scale(1); } 
-}
-
-/* Botón "Leer más" */
-.read-more-btn {
-  color: #3b82f6; /* azul */
-  text-decoration: underline;
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-weight: 500;
+/* Imagen del personaje */
+.modal-image {
+  width: 100%;
+  max-height: 300px;
+  object-fit: contain;
+  border-radius: 0.5rem;
   margin-bottom: 1rem;
 }
 
-/* Transformaciones */
+/* Botones de transformaciones */
 .transform-buttons {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  justify-content: center;
-  margin-top: 1rem;
+  justify-content: flex-start;
+  margin-top: 0.5rem;
 }
 
 .transform-button {
-  background-color: #f97316; /* naranja */
+  background-color: #f97316;
   color: white;
   padding: 0.25rem 0.75rem;
   border-radius: 0.375rem;
@@ -84,7 +74,57 @@
   background-color: #ea580c;
 }
 
-/* scroll desactivado */
+/* Imagen del planeta */
+.planet-image {
+  width: 100%;
+  max-width: 200px;
+  object-fit: cover;
+  border-radius: 0.5rem;
+  margin: 0.5rem 0;
+}
+
+/* Estadísticas y nombre */
+.character-name {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0.5rem 0;
+  color: #facc15;
+}
+
+.character-stats p {
+  margin: 0.25rem 0;
+}
+
+/* Botón Leer más */
+.read-more-btn {
+  color: #3b82f6;
+  text-decoration: underline;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  margin-bottom: 1rem;
+}
+
+/* Gifs */
+.gifs-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.gif-placeholder {
+  background-color: #374151;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0.5rem;
+  color: #d1d5db;
+}
+
+/* Scroll body desactivado */
 .no-scroll {
   overflow: hidden;
 }

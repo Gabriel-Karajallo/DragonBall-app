@@ -4,12 +4,26 @@ import CharacterGrid from "../components/CharacterGrid/CharacterGrid";
 import { useCharacters } from "../hooks/useCharacters";
 
 function Home() {
-  const { filtered, handleSearch, loading } = useCharacters();
+  const {
+    filtered,
+    loading,
+    searchTerm,
+    setSearchTerm,
+    selectedRace,
+    setSelectedRace,
+  } = useCharacters();
 
   return (
     <div className="min-h-screen text-white px-4">
       <Header />
-      <SearchBar onSearch={handleSearch} />
+
+      <SearchBar
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
+        selectedRace={selectedRace}
+        setSelectedRace={setSelectedRace}
+      />
+
       {loading ? (
         <p className="text-center mt-8">Cargando personajes...</p>
       ) : (
