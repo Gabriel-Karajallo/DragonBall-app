@@ -18,7 +18,8 @@ function CharacterGrid({ characters }: CharacterGridProps) {
   const visibleCharacters = characters.slice(0, visibleCount);
 
   return (
-    <div className="flex flex-col items-center w-full px-4 md:px-6">
+    <div className="flex flex-col items-center w-full px-4 md:px-6  
+                    bg-[url('/fondo.jpg')] bg-repeat bg-top">
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 mt-6 max-w-[1400px] mx-auto">
         {visibleCharacters.map((character) => (
           <CharacterCard key={character.id} character={character} />
